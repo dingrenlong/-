@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 文档根元素 "mapper" 必须匹配 DOCTYPE 根 "null" -->
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!--namespace 匹配的接口  -->
+<mapper namespace="com.drl.mapper.UserMapper">
+	<!--添加用户信息-->
+	<!-- Integer insert(User user); -->
+	<insert id="insert" 
+		parameterType="com.drl.entity.User"
+		useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_user(
+			username,
+			password,
+			uuid,
+			realname,
+			gender,
+			phone,
+			email,
+			createdUser,
+			createdTime,
+			modifiedUser,
+			modifiedTime
+		)values(
+			#{username},
+			#{password},
+			#{uuid},
+			#{realname},
+			#{gender},
+			#{phone},
+			#{email},
+			#{createdUser},
+			#{createdTime},
+			#{modifiedUser},
+			#{modifiedTime}
+		)
+	</insert>
+	
+	<!-- 查找用户信息 -->
+	<!-- List<User> select(@Param("where") String where,
+			@Param("orderBy") String orderBy,
+			@Param("offset") Integer offset,
+			@Param("countPerPage") Integer countPerPage); -->
+	<select id="select" 
+	resultType="com.drl.entity.User">
+		select 
+			id,username,password,uuid,realname,gender,phone,email,
+			createdUser,createdTime,
+			modifiedUser,modifiedTime
+		from t_user
+		<if test="where != null">
+		where ${where}
+		</if>
+		<if test="orderBy != null">
+		order by ${orderBy}
+		</if>
+		<if test="offset != null">
+		limit #{offset},#{countPerPage}
+		</if>
+	</select>
+	<!-- 修改用户信息 -->
+	<!-- Integer update(User user); -->
+	<update id="update" parameterType="com.drl.entity.User">
+		UPDATE t_user
+		SET
+			<if test="username!=null">
+			username=#{username},
+			</if>
+			
+			<if test="password!=null">
+			password=#{password},
+			</if>
+			
+			<if test="realname!=null">
+			realname=#{realname},
+			</if>
+			
+			<if test="gender!=null">
+			gender=#{gender},
+			</if>
+			
+			<if test="phone!=null">
+			phone=#{phone},
+			</if>
+			
+			<if test="email!=null">
+			email=#{email},
+			</if>
+			
+			modifiedUser=#{modifiedUser},
+			modifiedTime=#{modifiedTime}
+			
+		WHERE id=#{id}
+	</update>
+</mapper>

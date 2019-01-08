@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 文档根元素 "mapper" 必须匹配 DOCTYPE 根 "null" -->
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!--namespace 匹配的接口  -->
+<mapper namespace="com.drl.mapper.UserFileMapper">
+	<!--添加用户信息-->
+	<!-- Integer insert(User user); -->
+	<insert id="insert" 
+		parameterType="com.drl.entity.UserFile"
+		useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_userFile(
+			fileName,
+			filePath,
+			fileType,
+			filePurposes,
+			fileStatus,
+			userId,
+			createdUser,
+			createdTime,
+			modifiedUser,
+			modifiedTime
+		)values(
+			#{fileName},
+			#{filePath},
+			#{fileType},
+			#{filePurposes},
+			#{fileStatus},
+			#{userId},
+			#{createdUser},
+			#{createdTime},
+			#{modifiedUser},
+			#{modifiedTime}
+		)
+	</insert>
+	
+	<!-- 查找用户信息 -->
+	<!-- List<User> select(@Param("where") String where,
+			@Param("orderBy") String orderBy,
+			@Param("offset") Integer offset,
+			@Param("countPerPage") Integer countPerPage); -->
+	<select id="select" 
+	resultType="com.drl.entity.UserFile">
+		select 
+			id,
+			fileName,
+			filePath,
+			fileType,
+			filePurposes,
+			fileStatus,
+			userId,
+			createdUser,
+			createdTime,
+			modifiedUser,
+			modifiedTime
+		from t_userFile
+		<if test="where != null">
+		where ${where}
+		</if>
+		<if test="orderBy != null">
+		order by ${orderBy}
+		</if>
+		<if test="offset != null">
+		limit #{offset},#{countPerPage}
+		</if>
+	</select>
+	<!-- 修改用户信息 -->
+	<!-- Integer update(User user); -->
+	<update id="update" parameterType="com.drl.entity.UserFile">
+		UPDATE t_userFile
+		SET
+			<if test="filePurposes!=null">
+			filePurposes=#{filePurposes},
+			</if>
+			
+			<if test="fileStatus!=null">
+			fileStatus=#{fileStatus},
+			</if>
+			
+			modifiedUser=#{modifiedUser},
+			modifiedTime=#{modifiedTime}
+			
+		WHERE id=#{id}
+	</update>
+</mapper>

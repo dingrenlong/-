@@ -1,0 +1,9 @@
+本次修改：
+
+	新增：
+		新增servlet类：  /boot1/src/main/java/com/drl/servlet/TestServlet.java
+		
+	修改：
+		/boot1/src/main/java/com/Boot1Application.java添加注解@ServletComponentScan
+	
+	注：（文件不含images）
